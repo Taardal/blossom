@@ -2,10 +2,12 @@ package no.taardal.pixelcave.keyboard;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+@Component
 public class Keyboard implements KeyListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Keyboard.class);
@@ -21,7 +23,7 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        //LOGGER.debug(keyEvent.paramString());
+        LOGGER.info(keyEvent.paramString());
         if (keyEvent.getKeyCode() < MAX_KEY_CODE) {
             keyStates[keyEvent.getKeyCode()] = true;
         }
@@ -30,7 +32,7 @@ public class Keyboard implements KeyListener {
     @Override
     public void keyReleased(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() < MAX_KEY_CODE) {
-//            LOGGER.debug(keyEvent.paramString());
+            LOGGER.info(keyEvent.paramString());
             keyStates[keyEvent.getKeyCode()] = false;
         }
     }

@@ -33,4 +33,9 @@ public class PlayGameState implements GameState {
         level.draw(camera);
     }
 
+    @Override
+    public void update(double secondsSinceLastUpdate) {
+
+    }
+
 }

@@ -9,4 +9,5 @@ public interface GameState {
     GameState update(float secondsSinceLastUpdate, Camera camera);
     void draw(Camera camera);
 
+    void update(double secondsSinceLastUpdate);
 }

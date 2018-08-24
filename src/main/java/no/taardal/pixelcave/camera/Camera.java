@@ -1,15 +1,18 @@
 package no.taardal.pixelcave.camera;
 
+import no.taardal.pixelcave.Config;
 import no.taardal.pixelcave.actor.Player;
 import no.taardal.pixelcave.direction.Direction;
-import no.taardal.pixelcave.game.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
+@Component
 public class Camera {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Camera.class);
@@ -29,9 +32,10 @@ public class Camera {
     private float previousPlayerX;
     private boolean centerOnPlayerRequired;
 
-    public Camera(int width, int height) {
-        this.width = width;
-        this.height = height;
+    @Autowired
+    public Camera(Config config) {
+        this.width = config.getWidth();
+        this.height = config.getHeight();
         direction = Direction.NO_DIRECTION;
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         graphics2D = bufferedImage.createGraphics();
@@ -74,7 +78,7 @@ public class Camera {
 
     public void update(Player player) {
         if (centerOnPlayerRequired) {
-            x = ((int) player.getPosition().getX()) - Game.GAME_WIDTH / 2;
+            x = ((int) player.getPosition().getX()) - width / 2;
             centerOnPlayerRequired = false;
         }
         float playerX = player.getPosition().getX();
