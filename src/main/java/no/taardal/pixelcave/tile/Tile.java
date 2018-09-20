@@ -17,14 +17,6 @@ public class Tile {
         slope = isSlopeTile();
     }
 
-    @Override
-    public String toString() {
-        return "Tile{" +
-                "slope=" + slope +
-                ", direction=" + direction +
-                '}';
-    }
-
     public int getWidth() {
         return bufferedImage.getWidth();
     }

@@ -2,6 +2,7 @@ package no.taardal.pixelcave.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,58 +14,87 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Component
 public class ResourceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceService.class);
 
-    public String readFile(String path) {
-        return readFile(Paths.get(getUri(path)));
+    public String readFile(String relativePath) {
+        Path resourcePath = getResourcePath(relativePath);
+        return resourcePath != null ? new String(getBytes(resourcePath)) : null;
     }
 
-    public BufferedImage getBufferedImage(String path) {
-        return getBufferedImage(getResourceURL(path));
+    public List<BufferedImage> getBufferedImages(String relativePath) {
+        return listFiles(relativePath).stream()
+                .sorted(Comparator.comparing(File::getName))
+                .map(this::getBufferedImage)
+                .collect(Collectors.toList());
     }
 
-    public String[] getFileNames(String path) {
-        String[] fileNames = new File(getUri(path)).list();
-        if (fileNames != null) {
-            return fileNames;
-        } else {
-            LOGGER.warn("Could not find any files on path [{}].", path);
-            return new String[]{};
+    public BufferedImage getBufferedImage(String relativePath) {
+        Path resourcePath = getResourcePath(relativePath);
+        return resourcePath != null ? getBufferedImage(resourcePath.toFile()) : null;
+    }
+
+    public List<File> listFiles(String relativePath) {
+        return list(relativePath).stream().filter(file -> !file.isDirectory()).collect(Collectors.toList());
+    }
+
+    public List<File> list(String relativePath) {
+        Path resourcePath = getResourcePath(relativePath);
+        return resourcePath != null ? list(getResourcePath(relativePath)) : Collections.emptyList();
+    }
+
+    private Path getResourcePath(String relativePath) {
+        URL url = getClass().getClassLoader().getResource(relativePath);
+        if (url != null) {
+            URI uri = getUri(url);
+            if (uri != null) {
+                return Paths.get(uri);
+            }
+        }
+        return null;
+    }
+
+    private URI getUri(URL url) {
+        try {
+            return url.toURI();
+        } catch (URISyntaxException e) {
+            LOGGER.error("Could not get URI from URL [{}]", url, e);
+            return null;
         }
     }
 
-    private String readFile(Path path) {
+    private List<File> list(Path path) {
         try {
-            return new String(Files.readAllBytes(path));
+            return Files.list(path).map(Path::toFile).collect(Collectors.toList());
+        } catch (IOException e) {
+            LOGGER.error("Could not list files and/or directories on path [{}]", path, e);
+            return Collections.emptyList();
+        }
+    }
+
+    private BufferedImage getBufferedImage(File file) {
+        try {
+            return ImageIO.read(file);
+        } catch (IOException e) {
+            LOGGER.error("Could not read image on path [{}].", file.getPath(), e);
+            return null;
+        }
+    }
+
+    private byte[] getBytes(Path path) {
+        try {
+            return Files.readAllBytes(path);
         } catch (IOException e) {
             LOGGER.error("Could not read file from path [{}].", path, e);
-            throw new RuntimeException(e);
+            return new byte[]{};
         }
-    }
-
-    private BufferedImage getBufferedImage(URL url) {
-        try {
-            return ImageIO.read(url);
-        } catch (IOException | IllegalArgumentException e) {
-            LOGGER.error("Could not read image from URL [{}].", url, e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    private URI getUri(String path) {
-        try {
-            return getResourceURL(path).toURI();
-        } catch (URISyntaxException e) {
-            LOGGER.error("Could not get resource URI from path [{}].", path, e);
-            throw new RuntimeException(e);
-        }
-    }
-
-    private URL getResourceURL(String path) {
-        return getClass().getClassLoader().getResource(path);
     }
 
 }

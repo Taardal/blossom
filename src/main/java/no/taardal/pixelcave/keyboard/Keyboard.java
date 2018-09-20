@@ -58,7 +58,9 @@ public class Keyboard implements KeyListener {
     }
 
     private void setCurrentKeyStatesAsPreviousKeyStates() {
-        System.arraycopy(keyStates, 0, previousKeyStates, 0, MAX_KEY_CODE);
+        int keyStatesPosition = 0;
+        int previousKeyStatesPosition = 0;
+        System.arraycopy(keyStates, keyStatesPosition, previousKeyStates, previousKeyStatesPosition, MAX_KEY_CODE);
     }
 
 }

@@ -1,48 +1,45 @@
 package no.taardal.pixelcave.statemachine;
 
-import no.taardal.pixelcave.state.ActorState;
+import no.taardal.pixelcave.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class StateMachine implements StateListener {
+public class StateMachine<T extends State> implements StateListener<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StateMachine.class);
 
-    private Deque<ActorState> actorStateDeque;
+    private Deque<T> stateDeque;
 
     public StateMachine() {
-        actorStateDeque = new ArrayDeque<>();
+        stateDeque = new ArrayDeque<>();
     }
 
     @Override
-    public void onChangeState(ActorState actorState) {
-        if (!isEmpty()) {
+    public T getCurrentState() {
+        return !stateDeque.isEmpty() ? stateDeque.getFirst() : null;
+    }
+
+    @Override
+    public void onChangeState(T state) {
+        if (!stateDeque.isEmpty()) {
             onPopState();
         }
-        onPushState(actorState);
+        onPushState(state);
+    }
+
+    @Override
+    public void onPushState(T state) {
+        state.onEntry();
+        stateDeque.addFirst(state);
     }
 
     @Override
     public void onPopState() {
-        actorStateDeque.getFirst().onExit();
-        actorStateDeque.removeFirst();
-    }
-
-    @Override
-    public void onPushState(ActorState actorState) {
-        actorState.onEntry();
-        actorStateDeque.addFirst(actorState);
-    }
-
-    public ActorState getCurrentState() {
-        return !isEmpty() ? actorStateDeque.getFirst() : null;
-    }
-
-    public boolean isEmpty() {
-        return actorStateDeque.isEmpty();
+        stateDeque.getFirst().onExit();
+        stateDeque.removeFirst();
     }
 
 }

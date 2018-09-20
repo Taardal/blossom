@@ -1,13 +1,12 @@
 package no.taardal.pixelcave.statemachine;
 
-import no.taardal.pixelcave.state.ActorState;
+import no.taardal.pixelcave.state.State;
 
-public interface StateListener {
+public interface StateListener<T extends State> {
 
-    void onChangeState(ActorState actorState);
-
-    void onPushState(ActorState actorState);
-
+    T getCurrentState();
+    void onChangeState(T state);
+    void onPushState(T state);
     void onPopState();
 
 }

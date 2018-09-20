@@ -1,8 +1,7 @@
 package no.taardal.pixelcave.world;
 
-import no.taardal.pixelcave.layer.Layer;
-import no.taardal.pixelcave.orientation.Orientation;
-import no.taardal.pixelcave.order.RenderOrder;
+import no.taardal.pixelcave.layer.GameObjectLayer;
+import no.taardal.pixelcave.layer.TileLayer;
 import no.taardal.pixelcave.tile.Tile;
 import no.taardal.pixelcave.tile.TileSet;
 
@@ -14,24 +13,26 @@ public class World {
     public static final int NO_TILE_ID = 0;
     public static final int GRAVITY = 500;
 
-    private Map<String, Layer> layers;
     private Map<Integer, Tile> tiles;
+    private Map<String, TileLayer> tileLayers;
+    private Map<String, GameObjectLayer> gameObjectLayers;
     private List<TileSet> tileSets;
-    private Orientation orientation;
-    private RenderOrder renderOrder;
     private int width;
     private int height;
     private int nextObjectId;
     private int tileWidth;
     private int tileHeight;
-    private int version;
 
-    public Map<String, Layer> getLayers() {
-        return layers;
-    }
-
-    public void setLayers(Map<String, Layer> layers) {
-        this.layers = layers;
+    public World(Map<Integer, Tile> tiles, Map<String, TileLayer> tileLayers, Map<String, GameObjectLayer> gameObjectLayers, List<TileSet> tileSets, int width, int height, int nextObjectId, int tileWidth, int tileHeight) {
+        this.tiles = tiles;
+        this.tileLayers = tileLayers;
+        this.gameObjectLayers = gameObjectLayers;
+        this.tileSets = tileSets;
+        this.width = width;
+        this.height = height;
+        this.nextObjectId = nextObjectId;
+        this.tileWidth = tileWidth;
+        this.tileHeight = tileHeight;
     }
 
     public Map<Integer, Tile> getTiles() {
@@ -42,28 +43,28 @@ public class World {
         this.tiles = tiles;
     }
 
+    public Map<String, TileLayer> getTileLayers() {
+        return tileLayers;
+    }
+
+    public void setTileLayers(Map<String, TileLayer> tileLayers) {
+        this.tileLayers = tileLayers;
+    }
+
+    public Map<String, GameObjectLayer> getGameObjectLayers() {
+        return gameObjectLayers;
+    }
+
+    public void setGameObjectLayers(Map<String, GameObjectLayer> gameObjectLayers) {
+        this.gameObjectLayers = gameObjectLayers;
+    }
+
     public List<TileSet> getTileSets() {
         return tileSets;
     }
 
     public void setTileSets(List<TileSet> tileSets) {
         this.tileSets = tileSets;
-    }
-
-    public Orientation getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(Orientation orientation) {
-        this.orientation = orientation;
-    }
-
-    public RenderOrder getRenderOrder() {
-        return renderOrder;
-    }
-
-    public void setRenderOrder(RenderOrder renderOrder) {
-        this.renderOrder = renderOrder;
     }
 
     public int getWidth() {
@@ -106,28 +107,67 @@ public class World {
         this.tileHeight = tileHeight;
     }
 
-    public int getVersion() {
-        return version;
+    public static final class Builder {
+
+        private Map<Integer, Tile> tiles;
+        private Map<String, TileLayer> tileLayers;
+        private Map<String, GameObjectLayer> gameObjectLayers;
+        private List<TileSet> tileSets;
+        private int width;
+        private int height;
+        private int nextObjectId;
+        private int tileWidth;
+        private int tileHeight;
+
+        public Builder setTiles(Map<Integer, Tile> tiles) {
+            this.tiles = tiles;
+            return this;
+        }
+
+        public Builder setTileLayers(Map<String, TileLayer> tileLayers) {
+            this.tileLayers = tileLayers;
+            return this;
+        }
+
+        public Builder setGameObjectLayers(Map<String, GameObjectLayer> gameObjectLayers) {
+            this.gameObjectLayers = gameObjectLayers;
+            return this;
+        }
+
+        public Builder setTileSets(List<TileSet> tileSets) {
+            this.tileSets = tileSets;
+            return this;
+        }
+
+        public Builder setWidth(int width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder setHeight(int height) {
+            this.height = height;
+            return this;
+        }
+
+        public Builder setNextObjectId(int nextObjectId) {
+            this.nextObjectId = nextObjectId;
+            return this;
+        }
+
+        public Builder setTileWidth(int tileWidth) {
+            this.tileWidth = tileWidth;
+            return this;
+        }
+
+        public Builder setTileHeight(int tileHeight) {
+            this.tileHeight = tileHeight;
+            return this;
+        }
+
+        public World createWorld() {
+            return new World(tiles, tileLayers, gameObjectLayers, tileSets, width, height, nextObjectId, tileWidth, tileHeight);
+        }
     }
 
-    public void setVersion(int version) {
-        this.version = version;
-    }
 
-    @Override
-    public String toString() {
-        return "World{" +
-                "layers=" + layers +
-                ", tileSets=" + tileSets +
-                ", tiles=" + tiles +
-                ", orientation=" + orientation +
-                ", renderOrder=" + renderOrder +
-                ", width=" + width +
-                ", height=" + height +
-                ", nextObjectId=" + nextObjectId +
-                ", tileWidth=" + tileWidth +
-                ", tileHeight=" + tileHeight +
-                ", version=" + version +
-                '}';
-    }
 }

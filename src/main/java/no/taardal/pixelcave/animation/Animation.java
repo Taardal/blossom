@@ -5,28 +5,12 @@ import no.taardal.pixelcave.camera.Camera;
 
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Animation {
 
     private static final int DEFAULT_UPDATES_PER_FRAME = 5;
-
-    public enum Type {
-        IDLE,
-        FALL,
-        LAND,
-        JUMP,
-        RUN,
-        TUMBLE,
-        ATTACK,
-        ATTACK_MID_AIR,
-        ATTACK_WHILE_CROUCHED,
-        DEFEND,
-        DEFEND_WHILE_CROUCHED,
-        CROUCH,
-        HURT,
-        DEAD;
-    }
 
     private BufferedImage[] sprites;
     private BufferedImage currentSprite;
@@ -38,9 +22,8 @@ public class Animation {
     private boolean indefinite;
     private boolean finished;
 
-    private Animation() {
-        updatesPerFrame = DEFAULT_UPDATES_PER_FRAME;
-        indefinite = true;
+    public Animation(List<BufferedImage> sprites) {
+        this(sprites.toArray(new BufferedImage[]{}));
     }
 
     public Animation(BufferedImage[] sprites) {
@@ -51,6 +34,11 @@ public class Animation {
             width = sprites[i].getWidth() > width ? sprites[i].getWidth() : width;
             height = sprites[i].getHeight() > height ? sprites[i].getHeight() : height;
         }
+    }
+
+    private Animation() {
+        updatesPerFrame = DEFAULT_UPDATES_PER_FRAME;
+        indefinite = true;
     }
 
     public int getWidth() {

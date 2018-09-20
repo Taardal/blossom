@@ -1,6 +1,6 @@
 package no.taardal.pixelcave.camera;
 
-import no.taardal.pixelcave.Config;
+import no.taardal.pixelcave.config.GameConfig;
 import no.taardal.pixelcave.actor.Player;
 import no.taardal.pixelcave.direction.Direction;
 import org.slf4j.Logger;
@@ -33,9 +33,9 @@ public class Camera {
     private boolean centerOnPlayerRequired;
 
     @Autowired
-    public Camera(Config config) {
-        this.width = config.getWidth();
-        this.height = config.getHeight();
+    public Camera(GameConfig gameConfig) {
+        this.width = gameConfig.getWidth();
+        this.height = gameConfig.getHeight();
         direction = Direction.NO_DIRECTION;
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         graphics2D = bufferedImage.createGraphics();

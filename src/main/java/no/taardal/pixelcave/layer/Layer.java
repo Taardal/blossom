@@ -11,11 +11,14 @@ public abstract class Layer {
     private Type type;
     private int x;
     private int y;
-    private int opacity;
     private boolean visible;
 
-    public Layer(Type type) {
+    Layer(String name, Type type, int x, int y, boolean visible) {
+        this.name = name;
         this.type = type;
+        this.x = x;
+        this.y = y;
+        this.visible = visible;
     }
 
     public String getName() {
@@ -28,10 +31,6 @@ public abstract class Layer {
 
     public Type getType() {
         return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     public int getX() {
@@ -50,31 +49,11 @@ public abstract class Layer {
         this.y = y;
     }
 
-    public int getOpacity() {
-        return opacity;
-    }
-
-    public void setOpacity(int opacity) {
-        this.opacity = opacity;
-    }
-
     public boolean isVisible() {
         return visible;
     }
 
     public void setVisible(boolean visible) {
         this.visible = visible;
-    }
-
-    @Override
-    public String toString() {
-        return "Layer{" +
-                "fileName='" + name + '\'' +
-                ", type=" + type +
-                ", x=" + x +
-                ", y=" + y +
-                ", opacity=" + opacity +
-                ", visible=" + visible +
-                '}';
     }
 }
