@@ -14,12 +14,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Configuration
-public class ActorProvider {
+public class ActorSampleProvider {
 
     private GameConfig gameConfig;
 
     @Autowired
-    public ActorProvider(GameConfig gameConfig) {
+    public ActorSampleProvider(GameConfig gameConfig) {
         this.gameConfig = gameConfig;
     }
 
@@ -33,7 +33,7 @@ public class ActorProvider {
                     .setDirection(Direction.LEFT)
                     .setWidth(actorTemplate.getApproximateWidth())
                     .setHeight(actorTemplate.getApproximateHeight())
-                    .createActor();
+                    .build();
         }));
     }
 

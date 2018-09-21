@@ -1,5 +1,6 @@
 package no.taardal.pixelcave.statemachine;
 
+import no.taardal.pixelcave.listener.StateListener;
 import no.taardal.pixelcave.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

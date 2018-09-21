@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.statemachine;
+package no.taardal.pixelcave.listener;
 
 import no.taardal.pixelcave.state.State;
 

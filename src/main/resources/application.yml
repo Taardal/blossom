@@ -1,5 +1,6 @@
 title: PixelCave
 width: 360
+scale: 3
 levels:
   - pixelcave
 templates:

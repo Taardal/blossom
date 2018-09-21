@@ -2,11 +2,9 @@ package no.taardal.pixelcave.level;
 
 import no.taardal.pixelcave.actor.Actor;
 import no.taardal.pixelcave.camera.Camera;
-import no.taardal.pixelcave.keyboard.Keyboard;
 import no.taardal.pixelcave.layer.Layer;
 import no.taardal.pixelcave.layer.TileLayer;
 import no.taardal.pixelcave.ribbon.Ribbon;
-import no.taardal.pixelcave.service.ActorService;
 import no.taardal.pixelcave.tile.Tile;
 import no.taardal.pixelcave.world.World;
 import org.slf4j.Logger;
@@ -21,39 +19,25 @@ public class Level {
 
     private World world;
     private List<Ribbon> ribbons;
-    private ActorService actorService;
     private Actor player;
     private List<Actor> enemies;
 
-    public Level(World world, List<Ribbon> ribbons, ActorService actorService) {
+    public Level(World world, List<Ribbon> ribbons, Actor player, List<Actor> enemies) {
         this.world = world;
         this.ribbons = ribbons;
-        this.actorService = actorService;
-        //enemies = actorService.getEnemies(world);
+        this.player = player;
+        this.enemies = enemies;
     }
 
-    public void handleInput(Keyboard keyboard) {
-
-    }
-
-    public void update(float secondsSinceLastUpdate, Camera camera) {
-        updateRibbons(camera);
-    }
-
-    public void draw(Camera camera) {
-        drawRibbons(camera);
-        drawTiles(camera);
-    }
-
-    private void updateRibbons(Camera camera) {
+    public void updateRibbons(Camera camera) {
         IntStream.range(0, ribbons.size()).forEach(i -> ribbons.get(i).update(camera.getDirection()));
     }
 
-    private void drawRibbons(Camera camera) {
+    public void drawRibbons(Camera camera) {
         IntStream.range(0, ribbons.size()).forEach(i -> ribbons.get(i).draw(camera));
     }
 
-    private void drawTiles(Camera camera) {
+    public void drawTiles(Camera camera) {
         world.getTileLayers().values().stream().filter(Layer::isVisible).forEach(tileLayer -> drawTiles(tileLayer, camera));
     }
 

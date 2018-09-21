@@ -14,6 +14,7 @@ public class GameConfig {
 
     private String title;
     private int width;
+    private int scale;
     private List<String> levels;
     private Map<ActorType, ActorTemplate> templates;
 
@@ -35,6 +36,14 @@ public class GameConfig {
 
     public int getHeight() {
         return width / 16 * 9;
+    }
+
+    public int getScale() {
+        return scale;
+    }
+
+    public void setScale(int scale) {
+        this.scale = scale;
     }
 
     public List<String> getLevels() {

@@ -15,7 +15,7 @@ public class GameObject {
     private float rotation;
     private boolean visible;
 
-    public GameObject(String name, String type, Map<String, Object> properties, int id, int width, int height, float x, float y, float rotation, boolean visible) {
+    private GameObject(String name, String type, Map<String, Object> properties, int id, int width, int height, float x, float y, float rotation, boolean visible) {
         this.name = name;
         this.type = type;
         this.properties = properties;
@@ -171,7 +171,7 @@ public class GameObject {
             return this;
         }
 
-        public GameObject createGameObject() {
+        public GameObject build() {
             return new GameObject(name, type, properties, id, width, height, x, y, rotation, visible);
         }
     }

@@ -1,6 +1,7 @@
 package no.taardal.pixelcave.service;
 
 import com.google.gson.Gson;
+import no.taardal.pixelcave.gameobject.GameObject;
 import no.taardal.pixelcave.ribbon.Ribbon;
 import no.taardal.pixelcave.sprite.ActorTemplate;
 import no.taardal.pixelcave.sprite.SpriteSheet;

@@ -47,7 +47,7 @@ public class GameObjectLayerDeserializer implements JsonDeserializer<GameObjectL
                 .setY(jsonObject.get("y").getAsFloat())
                 .setRotation(jsonObject.get("rotation").getAsFloat())
                 .setVisible(jsonObject.get("visible").getAsBoolean())
-                .createGameObject();
+                .build();
     }
 
     private Map<String, Object> getProperties(JsonObject jsonObject) {

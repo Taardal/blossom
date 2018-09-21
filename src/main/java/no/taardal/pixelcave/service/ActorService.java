@@ -6,6 +6,7 @@ import no.taardal.pixelcave.animation.Animation;
 import no.taardal.pixelcave.animation.AnimationType;
 import no.taardal.pixelcave.animation.SpriteSheetCoordinate;
 import no.taardal.pixelcave.config.GameConfig;
+import no.taardal.pixelcave.gameobject.GameObject;
 import no.taardal.pixelcave.layer.GameObjectLayer;
 import no.taardal.pixelcave.sprite.ActorTemplate;
 import no.taardal.pixelcave.sprite.SpriteSheet;
@@ -47,9 +48,7 @@ public class ActorService {
 
     private Actor getActor(GameObject gameObject) {
         ActorType actorType = getActorType(gameObject);
-        return actorSamples.get(actorType).toBuilder()
-                .setAnimations(getAnimations(gameObject, actorType))
-                .createActor();
+        return actorSamples.get(actorType).toBuilder().setAnimations(getAnimations(gameObject, actorType)).build();
     }
 
     private ActorType getActorType(GameObject gameObject) {

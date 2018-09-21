@@ -1,5 +1,6 @@
 package no.taardal.pixelcave.provider;
 
+import no.taardal.pixelcave.actor.Actor;
 import no.taardal.pixelcave.config.GameConfig;
 import no.taardal.pixelcave.level.Level;
 import no.taardal.pixelcave.ribbon.Ribbon;
@@ -10,18 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
-public class LevelsProvider {
+public class LevelProvider {
 
-    private final GameConfig gameConfig;
-    private final AssetService assetService;
-    private final ActorService actorService;
+    private GameConfig gameConfig;
+    private AssetService assetService;
+    private ActorService actorService;
 
     @Autowired
-    public LevelsProvider(GameConfig gameConfig, AssetService assetService, ActorService actorService) {
+    public LevelProvider(GameConfig gameConfig, AssetService assetService, ActorService actorService) {
         this.gameConfig = gameConfig;
         this.assetService = assetService;
         this.actorService = actorService;
@@ -35,7 +37,9 @@ public class LevelsProvider {
     private Level getLevel(String levelName) {
         World world = assetService.getWorld(levelName);
         List<Ribbon> ribbons = assetService.getRibbons(levelName);
-        return new Level(world, ribbons, actorService);
+        Actor player = null;
+        List<Actor> enemies = new ArrayList<>();
+        return new Level(world, ribbons, player, enemies);
     }
 
 }

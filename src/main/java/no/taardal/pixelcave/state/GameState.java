@@ -1,13 +1,11 @@
-package no.taardal.pixelcave.state.game;
+package no.taardal.pixelcave.state;
 
 import no.taardal.pixelcave.camera.Camera;
 import no.taardal.pixelcave.keyboard.Keyboard;
 
-public interface GameState {
+public interface GameState extends State {
 
-    GameState handleInput(Keyboard keyboard);
+    GameState userInput(Keyboard keyboard);
     GameState update(float secondsSinceLastUpdate, Camera camera);
     void draw(Camera camera);
-
-    void update(double secondsSinceLastUpdate);
 }
