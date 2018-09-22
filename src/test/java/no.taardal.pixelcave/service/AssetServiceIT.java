@@ -1,7 +1,7 @@
 package no.taardal.pixelcave.service;
 
 import no.taardal.pixelcave.ITestKit;
-import no.taardal.pixelcave.world.World;
+import no.taardal.pixelcave.model.World;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

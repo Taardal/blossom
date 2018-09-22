@@ -1,10 +1,10 @@
 package no.taardal.pixelcave.config;
 
 import no.taardal.pixelcave.ITestKit;
-import no.taardal.pixelcave.actor.ActorType;
-import no.taardal.pixelcave.animation.SpriteSheetCoordinate;
-import no.taardal.pixelcave.animation.AnimationType;
-import no.taardal.pixelcave.sprite.ActorTemplate;
+import no.taardal.pixelcave.model.gameobject.GameActorType;
+import no.taardal.pixelcave.model.animation.AnimationTemplate;
+import no.taardal.pixelcave.model.animation.AnimationType;
+import no.taardal.pixelcave.model.gameobject.GameActorTemplate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class GameConfigIT extends ITestKit {
     public void readSpriteConfig() {
         assertNotNull(gameConfig);
 
-        ActorTemplate actorTemplate = gameConfig.getTemplates().get(ActorType.KNIGHT);
-        SpriteSheetCoordinate spriteSheetCoordinate = actorTemplate.getSpriteSheetCoordinates().get(AnimationType.RUN);
-        assertNotNull(spriteSheetCoordinate);
+        GameActorTemplate gameActorTemplate = gameConfig.getTemplates().get(GameActorType.KNIGHT);
+        AnimationTemplate animationTemplate = gameActorTemplate.getAnimationTemplates().get(AnimationType.RUN);
+        assertNotNull(animationTemplate);
     }
 
 }

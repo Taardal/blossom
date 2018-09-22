@@ -18,7 +18,7 @@ templates:
       - white
       - yellow
       - young
-    sprite-sheet-coordinates:
+    animation-templates:
       IDLE:
         x: 0
         y: 0
@@ -51,9 +51,8 @@ templates:
       - violet
       - void
       - white
-    animations:
+    animation-templates:
       IDLE:
-        frames: 4
-        sprite-sheet-row: 0
-        sprite-sheet-column: -1
-        indefinite: true
+        frames: 6
+        x: 0
+        y: 0

@@ -1,18 +1,16 @@
 package no.taardal.pixelcave.jsondeserializer;
 
 import com.google.gson.*;
-import no.taardal.pixelcave.layer.GameObjectLayer;
-import no.taardal.pixelcave.layer.Layer;
-import no.taardal.pixelcave.layer.TileLayer;
-import no.taardal.pixelcave.tile.Tile;
-import no.taardal.pixelcave.tile.TileSet;
-import no.taardal.pixelcave.world.World;
+import no.taardal.pixelcave.model.TileSet;
+import no.taardal.pixelcave.model.World;
+import no.taardal.pixelcave.model.layer.GameObjectLayer;
+import no.taardal.pixelcave.model.layer.Layer;
+import no.taardal.pixelcave.model.layer.TileLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,13 +23,11 @@ public class WorldDeserializer implements JsonDeserializer<World> {
     public World deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
         try {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
-            List<TileSet> tileSets = getTileSets(jsonObject, jsonDeserializationContext);
             List<Layer> layers = getLayers(jsonObject, jsonDeserializationContext);
             return new World.Builder()
-                    .setTileSets(tileSets)
-                    .setTiles(getTiles(tileSets))
                     .setTileLayers(getTileLayers(layers))
                     .setGameObjectLayers(getGameObjectLayers(layers))
+                    .setTileSets(getTileSets(jsonObject, jsonDeserializationContext))
                     .setWidth(jsonObject.get("width").getAsInt())
                     .setHeight(jsonObject.get("height").getAsInt())
                     .setNextObjectId(jsonObject.get("nextobjectid").getAsInt())
@@ -46,20 +42,7 @@ public class WorldDeserializer implements JsonDeserializer<World> {
 
     private List<TileSet> getTileSets(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {
         JsonArray tileSetsJsonArray = jsonObject.get("tilesets").getAsJsonArray();
-        TileSet[] tileSets = jsonDeserializationContext.deserialize(tileSetsJsonArray, TileSet[].class);
-        return Arrays.asList(tileSets);
-    }
-
-    private Map<Integer, Tile> getTiles(List<TileSet> tileSets) {
-        Map<Integer, Tile> tiles = new HashMap<>();
-        for (TileSet tileSet : tileSets) {
-            int globalId = tileSet.getFirstGlobalId();
-            for (Tile tile : tileSet.getTiles()) {
-                tiles.put(globalId, tile);
-                globalId++;
-            }
-        }
-        return tiles;
+        return Arrays.asList(jsonDeserializationContext.deserialize(tileSetsJsonArray, TileSet[].class));
     }
 
     private List<Layer> getLayers(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {

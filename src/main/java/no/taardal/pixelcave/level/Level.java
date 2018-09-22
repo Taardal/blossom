@@ -1,12 +1,14 @@
 package no.taardal.pixelcave.level;
 
-import no.taardal.pixelcave.actor.Actor;
 import no.taardal.pixelcave.camera.Camera;
-import no.taardal.pixelcave.layer.Layer;
-import no.taardal.pixelcave.layer.TileLayer;
-import no.taardal.pixelcave.ribbon.Ribbon;
-import no.taardal.pixelcave.tile.Tile;
-import no.taardal.pixelcave.world.World;
+import no.taardal.pixelcave.model.Ribbon;
+import no.taardal.pixelcave.model.Tile;
+import no.taardal.pixelcave.model.World;
+import no.taardal.pixelcave.model.animation.Animation;
+import no.taardal.pixelcave.model.animation.AnimationType;
+import no.taardal.pixelcave.model.gameobject.GameActor;
+import no.taardal.pixelcave.model.layer.Layer;
+import no.taardal.pixelcave.model.layer.TileLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,10 +21,10 @@ public class Level {
 
     private World world;
     private List<Ribbon> ribbons;
-    private Actor player;
-    private List<Actor> enemies;
+    private GameActor player;
+    private List<GameActor> enemies;
 
-    public Level(World world, List<Ribbon> ribbons, Actor player, List<Actor> enemies) {
+    public Level(World world, List<Ribbon> ribbons, GameActor player, List<GameActor> enemies) {
         this.world = world;
         this.ribbons = ribbons;
         this.player = player;
@@ -39,6 +41,15 @@ public class Level {
 
     public void drawTiles(Camera camera) {
         world.getTileLayers().values().stream().filter(Layer::isVisible).forEach(tileLayer -> drawTiles(tileLayer, camera));
+    }
+
+    public void drawGameActors(Camera camera) {
+        enemies.forEach(gameActor -> {
+            Animation animation = gameActor.getAnimations().get(AnimationType.IDLE);
+            animation.draw(gameActor, camera, false);
+        });
+        Animation animation = player.getAnimations().get(AnimationType.IDLE);
+        animation.draw(player, camera, false);
     }
 
     private void drawTiles(TileLayer tileLayer, Camera camera) {
@@ -76,5 +87,4 @@ public class Level {
             }
         }
     }
-
 }

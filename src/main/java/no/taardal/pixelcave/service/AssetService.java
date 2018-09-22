@@ -1,11 +1,9 @@
 package no.taardal.pixelcave.service;
 
 import com.google.gson.Gson;
-import no.taardal.pixelcave.gameobject.GameObject;
-import no.taardal.pixelcave.ribbon.Ribbon;
-import no.taardal.pixelcave.sprite.ActorTemplate;
-import no.taardal.pixelcave.sprite.SpriteSheet;
-import no.taardal.pixelcave.world.World;
+import no.taardal.pixelcave.model.*;
+import no.taardal.pixelcave.model.gameobject.GameActorTemplate;
+import no.taardal.pixelcave.model.gameobject.GameObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class AssetService {
@@ -33,14 +33,16 @@ public class AssetService {
     }
 
     public World getWorld(String name) {
-        String relativePath = WORLDS_RELATIVE_PATH + "/world_" + name + ".json";
-        return gson.fromJson(resourceService.readFile(relativePath), World.class);
+        String relativePath = WORLDS_RELATIVE_PATH + "/" + name + ".json";
+        World world = gson.fromJson(resourceService.readFile(relativePath), World.class);
+        world.setTiles(getTiles(world));
+        return world;
     }
 
     public List<Ribbon> getRibbons(String name) {
         List<Ribbon> ribbons = new ArrayList<>();
         float speed = 1f;
-        for (BufferedImage bufferedImage : resourceService.getBufferedImages(RIBBONS_RELATIVE_PATH)) {
+        for (BufferedImage bufferedImage : resourceService.getBufferedImages(RIBBONS_RELATIVE_PATH + "/" + name)) {
             Ribbon ribbon = new Ribbon(bufferedImage);
             ribbon.setSpeedX(speed);
             ribbons.add(ribbon);
@@ -49,19 +51,47 @@ public class AssetService {
         return ribbons;
     }
 
-    public SpriteSheet getSpriteSheet(GameObject gameObject, ActorTemplate actorTemplate) {
+    public SpriteSheet getSpriteSheet(GameObject gameObject, GameActorTemplate gameActorTemplate) {
         return new SpriteSheet.Builder()
                 .setBufferedImage(resourceService.getBufferedImage(getSpriteSheetPath(gameObject)))
-                .setApproximateSpriteWidth(actorTemplate.getApproximateWidth())
-                .setApproximateSpriteHeight(actorTemplate.getApproximateHeight())
+                .setApproximateSpriteWidth(gameActorTemplate.getApproximateWidth())
+                .setApproximateSpriteHeight(gameActorTemplate.getApproximateHeight())
                 .build();
     }
 
+    private Map<Integer, Tile> getTiles(World world) {
+        Map<Integer, Tile> tiles = new HashMap<>();
+        for (TileSet tileSet : world.getTileSets()) {
+            int globalId = tileSet.getFirstGlobalId();
+            for (Tile tile : getTiles(tileSet)) {
+                tiles.put(globalId, tile);
+                globalId++;
+            }
+        }
+        return tiles;
+    }
+
+    private List<Tile> getTiles(TileSet tileSet) {
+        List<Tile> tiles = new ArrayList<>();
+        BufferedImage tileSetImage = resourceService.getBufferedImage(tileSet.getImagePath());
+        int numberOfTilesX = tileSetImage.getWidth() / tileSet.getTileWidth();
+        int numberOfTilesY = tileSetImage.getHeight() / tileSet.getTileHeight();
+        for (int y = 0; y < numberOfTilesY; y++) {
+            for (int x = 0; x < numberOfTilesX; x++) {
+                int subImageX = x * tileSet.getTileWidth();
+                int subImageY = y * tileSet.getTileHeight();
+                BufferedImage tileImage = tileSetImage.getSubimage(subImageX, subImageY, tileSet.getTileWidth(), tileSet.getTileHeight());
+                tiles.add(new Tile(tileImage));
+            }
+        }
+        return tiles;
+    }
+
     private String getSpriteSheetPath(GameObject gameObject) {
-        String name = gameObject.getName();
+        String type = gameObject.getType();
         String theme = (String) gameObject.getProperties().get("theme");
         String gender = (String) gameObject.getProperties().get("gender");
-        return SPRITE_SHEETS_RELATIVE_PATH + "/" + name + "/" + name + "-" + gender + "-" + theme + ".png";
+        return SPRITE_SHEETS_RELATIVE_PATH + "/" + type + "/" + type + "-" + gender + "-" + theme + ".png";
     }
 
 }

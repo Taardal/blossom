@@ -1,5 +1,7 @@
 package no.taardal.pixelcave.keyboard;
 
+import no.taardal.pixelcave.model.Key;
+import no.taardal.pixelcave.model.KeyBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,11 +19,6 @@ public class Keyboard implements KeyListener {
     private static boolean[] previousKeyStates = new boolean[MAX_KEY_CODE];
 
     @Override
-    public void keyTyped(KeyEvent keyEvent) {
-
-    }
-
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
         LOGGER.info(keyEvent.paramString());
         if (keyEvent.getKeyCode() < MAX_KEY_CODE) {
@@ -35,6 +32,11 @@ public class Keyboard implements KeyListener {
             LOGGER.info(keyEvent.paramString());
             keyStates[keyEvent.getKeyCode()] = false;
         }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+
     }
 
     public void update() {

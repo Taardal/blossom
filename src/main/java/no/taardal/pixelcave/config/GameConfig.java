@@ -1,7 +1,7 @@
 package no.taardal.pixelcave.config;
 
-import no.taardal.pixelcave.actor.ActorType;
-import no.taardal.pixelcave.sprite.ActorTemplate;
+import no.taardal.pixelcave.model.gameobject.GameActorType;
+import no.taardal.pixelcave.model.gameobject.GameActorTemplate;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,7 +16,7 @@ public class GameConfig {
     private int width;
     private int scale;
     private List<String> levels;
-    private Map<ActorType, ActorTemplate> templates;
+    private Map<GameActorType, GameActorTemplate> templates;
 
     public String getTitle() {
         return title;
@@ -54,11 +54,11 @@ public class GameConfig {
         this.levels = levels;
     }
 
-    public Map<ActorType, ActorTemplate> getTemplates() {
+    public Map<GameActorType, GameActorTemplate> getTemplates() {
         return templates;
     }
 
-    public void setTemplates(Map<ActorType, ActorTemplate> templates) {
+    public void setTemplates(Map<GameActorType, GameActorTemplate> templates) {
         this.templates = templates;
     }
 

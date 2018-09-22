@@ -1,8 +1,8 @@
 package no.taardal.pixelcave.jsondeserializer;
 
 import com.google.gson.*;
-import no.taardal.pixelcave.gameobject.GameObject;
-import no.taardal.pixelcave.layer.GameObjectLayer;
+import no.taardal.pixelcave.model.gameobject.GameObject;
+import no.taardal.pixelcave.model.layer.GameObjectLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class GameObjectLayerDeserializer implements JsonDeserializer<GameObjectL
     @Override
     public GameObjectLayer deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
         try {
-            return new GameObjectLayer.Builder().setGameObjects(getGameObjects(jsonElement.getAsJsonObject())).createGameObjectLayer();
+            return new GameObjectLayer.Builder().setGameObjects(getGameObjects(jsonElement.getAsJsonObject())).build();
         } catch (JsonParseException e) {
             LOGGER.error("Could not deserialize game object layer.", e);
             return null;
@@ -57,13 +57,12 @@ public class GameObjectLayerDeserializer implements JsonDeserializer<GameObjectL
         for (Map.Entry<String, JsonElement> typeEntry : propertyTypesJsonObject.entrySet()) {
             String propertyName = typeEntry.getKey();
             String propertyType = typeEntry.getValue().getAsString();
-            JsonElement propertyJsonElement = propertiesJsonObject.get(propertyName);
-            properties.put(propertyName, getAsType(propertyJsonElement, propertyType));
+            properties.put(propertyName, getAsType(propertyType, propertiesJsonObject.get(propertyName)));
         }
         return properties;
     }
 
-    private Object getAsType(JsonElement jsonElement, String type) {
+    private Object getAsType(String type, JsonElement jsonElement) {
         switch (type) {
             case "string":
                 return jsonElement.getAsString();

@@ -1,8 +1,8 @@
 package no.taardal.pixelcave.camera;
 
 import no.taardal.pixelcave.config.GameConfig;
-import no.taardal.pixelcave.actor.Player;
-import no.taardal.pixelcave.direction.Direction;
+import no.taardal.pixelcave.model.Direction;
+import no.taardal.pixelcave.model.gameobject.GameActor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class Camera {
         graphics2D.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
     }
 
-    public void update(Player player) {
+    public void update(GameActor player) {
         if (centerOnPlayerRequired) {
             x = ((int) player.getPosition().getX()) - width / 2;
             centerOnPlayerRequired = false;
