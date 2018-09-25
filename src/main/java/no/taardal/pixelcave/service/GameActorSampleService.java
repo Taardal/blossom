@@ -1,30 +1,28 @@
-package no.taardal.pixelcave.provider;
+package no.taardal.pixelcave.service;
 
-import no.taardal.pixelcave.model.gameobject.GameActor;
-import no.taardal.pixelcave.model.gameobject.GameActorType;
 import no.taardal.pixelcave.config.GameConfig;
 import no.taardal.pixelcave.model.Direction;
-import no.taardal.pixelcave.model.gameobject.GameActorTemplate;
 import no.taardal.pixelcave.model.Vector2f;
+import no.taardal.pixelcave.model.gameobject.GameActor;
+import no.taardal.pixelcave.model.gameobject.GameActorTemplate;
+import no.taardal.pixelcave.model.gameobject.GameActorType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Configuration
-public class GameActorSampleProvider {
+@Component
+public class GameActorSampleService {
 
     private GameConfig gameConfig;
 
     @Autowired
-    public GameActorSampleProvider(GameConfig gameConfig) {
+    public GameActorSampleService(GameConfig gameConfig) {
         this.gameConfig = gameConfig;
     }
 
-    @Bean
-    public Map<GameActorType, GameActor> provideGameActorSamples() {
+    Map<GameActorType, GameActor> getSamples() {
         return gameConfig.getTemplates()
                 .entrySet()
                 .stream()

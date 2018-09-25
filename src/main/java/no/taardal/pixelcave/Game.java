@@ -5,6 +5,7 @@ import no.taardal.pixelcave.gameframe.GameFrame;
 import no.taardal.pixelcave.gameloop.GameLoop;
 import no.taardal.pixelcave.keyboard.Keyboard;
 import no.taardal.pixelcave.level.Level;
+import no.taardal.pixelcave.service.LevelService;
 import no.taardal.pixelcave.state.GameState;
 import no.taardal.pixelcave.state.PlayGameState;
 import no.taardal.pixelcave.statemachine.StateMachine;
@@ -16,7 +17,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.util.List;
 
 @SpringBootApplication
 public class Game implements GameLoop.Listener {
@@ -27,16 +27,16 @@ public class Game implements GameLoop.Listener {
     private GameLoop gameLoop;
     private Keyboard keyboard;
     private Camera camera;
-    private List<Level> levels;
+    private LevelService levelService;
     private StateMachine<GameState> gameStateMachine;
 
     @Autowired
-    public Game(GameFrame gameFrame, Keyboard keyboard, Camera camera, List<Level> levels) {
+    public Game(GameFrame gameFrame, Keyboard keyboard, Camera camera, LevelService levelService) {
         this();
         this.gameFrame = gameFrame;
         this.keyboard = keyboard;
         this.camera = camera;
-        this.levels = levels;
+        this.levelService = levelService;
     }
 
     private Game() {
@@ -50,7 +50,8 @@ public class Game implements GameLoop.Listener {
 
     @PostConstruct
     public synchronized void postConstruct() {
-        gameStateMachine.onPushState(new PlayGameState(levels.get(0), gameStateMachine));
+        Level firstLevel = levelService.getLevels().get(0);
+        gameStateMachine.onPushState(new PlayGameState(firstLevel, gameStateMachine));
         new Thread(gameLoop, "GAME_LOOP").start();
         gameFrame.requestFocus();
         LOGGER.info("Game started...");

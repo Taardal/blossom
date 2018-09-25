@@ -26,13 +26,13 @@ public class GameActorService {
 
     private GameConfig gameConfig;
     private AssetService assetService;
-    private Map<GameActorType, GameActor> actorSamples;
+    private GameActorSampleService gameActorSampleService;
 
     @Autowired
-    public GameActorService(GameConfig gameConfig, AssetService assetService, Map<GameActorType, GameActor> actorSamples) {
+    public GameActorService(GameConfig gameConfig, AssetService assetService, GameActorSampleService gameActorSampleService) {
         this.gameConfig = gameConfig;
         this.assetService = assetService;
-        this.actorSamples = actorSamples;
+        this.gameActorSampleService = gameActorSampleService;
     }
 
     public GameActor getPlayer(World world) {
@@ -56,7 +56,8 @@ public class GameActorService {
 
     private GameActor getGameActor(GameObject gameObject) {
         GameActorType gameActorType = getActorType(gameObject);
-        return actorSamples.get(gameActorType).toBuilder()
+        GameActor gameActorSample = gameActorSampleService.getSamples().get(gameActorType);
+        return gameActorSample.toBuilder()
                 .setAnimations(getAnimations(gameObject, gameActorType))
                 .setPosition(gameObject.getPosition())
                 .build();
@@ -77,7 +78,6 @@ public class GameActorService {
                 .entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> {
-                    AnimationType key = entry.getKey();
                     AnimationTemplate animationTemplate = entry.getValue();
                     return new Animation(getSprites(spriteSheet, animationTemplate));
                 }));
@@ -91,7 +91,7 @@ public class GameActorService {
     }
 
     private boolean isFriendly(GameObject gameObject) {
-        String propertyKey = "friendly";
-        return gameObject.getProperties().containsKey(propertyKey) && (boolean) gameObject.getProperties().get(propertyKey);
+        String friendlyProperty = "friendly";
+        return gameObject.getProperties().containsKey(friendlyProperty) && (boolean) gameObject.getProperties().get(friendlyProperty);
     }
 }

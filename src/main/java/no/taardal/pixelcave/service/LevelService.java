@@ -1,35 +1,31 @@
-package no.taardal.pixelcave.provider;
+package no.taardal.pixelcave.service;
 
 import no.taardal.pixelcave.config.GameConfig;
 import no.taardal.pixelcave.level.Level;
 import no.taardal.pixelcave.model.Ribbon;
 import no.taardal.pixelcave.model.World;
 import no.taardal.pixelcave.model.gameobject.GameActor;
-import no.taardal.pixelcave.service.AssetService;
-import no.taardal.pixelcave.service.GameActorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Configuration
-public class LevelProvider {
+@Component
+public class LevelService {
 
     private GameConfig gameConfig;
     private AssetService assetService;
     private GameActorService gameActorService;
 
     @Autowired
-    public LevelProvider(GameConfig gameConfig, AssetService assetService, GameActorService gameActorService) {
+    public LevelService(GameConfig gameConfig, AssetService assetService, GameActorService gameActorService) {
         this.gameConfig = gameConfig;
         this.assetService = assetService;
         this.gameActorService = gameActorService;
     }
 
-    @Bean
-    public List<Level> provideLevels() {
+    public List<Level> getLevels() {
         return gameConfig.getLevels().stream().map(this::getLevel).collect(Collectors.toList());
     }
 
