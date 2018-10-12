@@ -1,18 +1,17 @@
-package no.taardal.pixelcave.model.animation;
+package no.taardal.pixelcave.domain.animation;
 
 import no.taardal.pixelcave.camera.Camera;
-import no.taardal.pixelcave.model.gameobject.GameActor;
+import no.taardal.pixelcave.domain.gameobject.GameActor;
 
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class Animation {
 
     private static final int DEFAULT_UPDATES_PER_FRAME = 5;
 
-    private BufferedImage[] sprites;
+    private List<BufferedImage> sprites;
     private BufferedImage currentSprite;
     private int frame;
     private int updatesPerFrame;
@@ -23,17 +22,10 @@ public class Animation {
     private boolean finished;
 
     public Animation(List<BufferedImage> sprites) {
-        this(sprites.toArray(new BufferedImage[]{}));
-    }
-
-    public Animation(BufferedImage[] sprites) {
         this();
         this.sprites = sprites;
-        currentSprite = sprites[0];
-        for (int i = 0; i < sprites.length; i++) {
-            width = sprites[i].getWidth() > width ? sprites[i].getWidth() : width;
-            height = sprites[i].getHeight() > height ? sprites[i].getHeight() : height;
-        }
+        currentSprite = sprites.get(0);
+        setSizeFromLargestSprite(sprites);
     }
 
     private Animation() {
@@ -83,14 +75,14 @@ public class Animation {
     public void update() {
         if (!finished) {
             if (updatesSinceLastFrame >= updatesPerFrame) {
-                if (frame > sprites.length - 1) {
+                if (frame > sprites.size() - 1) {
                     if (indefinite) {
                         frame = 0;
                     } else {
                         finished = true;
                     }
                 } else {
-                    currentSprite = sprites[frame];
+                    currentSprite = sprites.get(frame);
                     frame++;
                 }
                 updatesSinceLastFrame = 0;
@@ -101,40 +93,22 @@ public class Animation {
 
     public void reset() {
         finished = false;
-        currentSprite = sprites[0];
+        currentSprite = sprites.get(0);
         frame = 0;
         updatesSinceLastFrame = 0;
     }
 
-    public void draw(GameActor gameActor, Camera camera, boolean flipped) {
+    public void draw(GameActor gameActor, Camera camera) {
         float y = gameActor.getPosition().getY() + gameActor.getHeight() - currentSprite.getHeight();
         float x = gameActor.getPosition().getX();
-        if (flipped) {
-            x += gameActor.getWidth() - currentSprite.getWidth();
-        }
-        camera.drawImage(currentSprite, x, y, flipped);
+        camera.drawImage(currentSprite, x, y);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Animation animation = (Animation) o;
-        return frame == animation.frame &&
-                updatesPerFrame == animation.updatesPerFrame &&
-                updatesSinceLastFrame == animation.updatesSinceLastFrame &&
-                width == animation.width &&
-                height == animation.height &&
-                indefinite == animation.indefinite &&
-                finished == animation.finished &&
-                Arrays.equals(sprites, animation.sprites) &&
-                Objects.equals(currentSprite, animation.currentSprite);
+    private void setSizeFromLargestSprite(List<BufferedImage> sprites) {
+        IntStream.range(0, sprites.size()).forEach(i -> {
+            width = sprites.get(i).getWidth() > width ? sprites.get(i).getWidth() : width;
+            height = sprites.get(i).getHeight() > height ? sprites.get(i).getHeight() : height;
+        });
     }
 
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(currentSprite, frame, updatesPerFrame, updatesSinceLastFrame, width, height, indefinite, finished);
-        result = 31 * result + Arrays.hashCode(sprites);
-        return result;
-    }
 }

@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.model;
+package no.taardal.pixelcave.domain;
 
 import no.taardal.pixelcave.camera.Camera;
 import org.slf4j.Logger;
@@ -99,7 +99,7 @@ public class Ribbon {
         } else if (cameraDirection == Direction.RIGHT) {
             return Direction.LEFT;
         } else {
-            return Direction.NO_DIRECTION;
+            return Direction.UNKNOWN;
         }
     }
 }

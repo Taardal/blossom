@@ -1,6 +1,6 @@
-package no.taardal.pixelcave.model.layer;
+package no.taardal.pixelcave.domain.layer;
 
-import no.taardal.pixelcave.model.gameobject.GameObject;
+import no.taardal.pixelcave.domain.gameobject.GameObject;
 
 import java.util.List;
 

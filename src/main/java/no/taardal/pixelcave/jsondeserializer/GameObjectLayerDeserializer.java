@@ -1,8 +1,8 @@
 package no.taardal.pixelcave.jsondeserializer;
 
 import com.google.gson.*;
-import no.taardal.pixelcave.model.gameobject.GameObject;
-import no.taardal.pixelcave.model.layer.GameObjectLayer;
+import no.taardal.pixelcave.domain.gameobject.GameObject;
+import no.taardal.pixelcave.domain.layer.GameObjectLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

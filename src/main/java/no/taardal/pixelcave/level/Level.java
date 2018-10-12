@@ -1,19 +1,19 @@
 package no.taardal.pixelcave.level;
 
 import no.taardal.pixelcave.camera.Camera;
-import no.taardal.pixelcave.model.Ribbon;
-import no.taardal.pixelcave.model.Tile;
-import no.taardal.pixelcave.model.World;
-import no.taardal.pixelcave.model.animation.Animation;
-import no.taardal.pixelcave.model.animation.AnimationType;
-import no.taardal.pixelcave.model.gameobject.GameActor;
-import no.taardal.pixelcave.model.layer.Layer;
-import no.taardal.pixelcave.model.layer.TileLayer;
+import no.taardal.pixelcave.domain.Ribbon;
+import no.taardal.pixelcave.domain.Tile;
+import no.taardal.pixelcave.domain.World;
+import no.taardal.pixelcave.domain.gameobject.GameActor;
+import no.taardal.pixelcave.domain.layer.Layer;
+import no.taardal.pixelcave.domain.layer.TileLayer;
+import no.taardal.pixelcave.keyboard.Keyboard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Level {
 
@@ -21,22 +21,33 @@ public class Level {
 
     private World world;
     private List<Ribbon> ribbons;
-    private GameActor player;
-    private List<GameActor> enemies;
+    private List<GameActor> gameActors;
+    private Map<Integer, Keyboard> aiKeyboards;
 
-    public Level(World world, List<Ribbon> ribbons, GameActor player, List<GameActor> enemies) {
+    public Level(World world, List<Ribbon> ribbons, List<GameActor> gameActors) {
         this.world = world;
         this.ribbons = ribbons;
-        this.player = player;
-        this.enemies = enemies;
+        this.gameActors = gameActors;
+        aiKeyboards = getAIKeyboards(gameActors);
+    }
+
+    public void handleInput(Keyboard keyboard) {
+        gameActors.forEach(gameActor -> {
+            Keyboard gameActorKeyboard = isPlayer(gameActor) ? keyboard : aiKeyboards.get(gameActor.getId());
+            gameActor.handleInput(gameActorKeyboard);
+        });
     }
 
     public void updateRibbons(Camera camera) {
-        IntStream.range(0, ribbons.size()).forEach(i -> ribbons.get(i).update(camera.getDirection()));
+        ribbons.forEach(ribbon -> ribbon.update(camera.getDirection()));
+    }
+
+    public void updateGameActors(float secondsSinceLastUpdate) {
+        gameActors.forEach(gameActor -> gameActor.update(world, secondsSinceLastUpdate));
     }
 
     public void drawRibbons(Camera camera) {
-        IntStream.range(0, ribbons.size()).forEach(i -> ribbons.get(i).draw(camera));
+        ribbons.forEach(ribbon -> ribbon.draw(camera));
     }
 
     public void drawTiles(Camera camera) {
@@ -44,12 +55,17 @@ public class Level {
     }
 
     public void drawGameActors(Camera camera) {
-        enemies.forEach(gameActor -> {
-            Animation animation = gameActor.getAnimations().get(AnimationType.IDLE);
-            animation.draw(gameActor, camera, false);
-        });
-        Animation animation = player.getAnimations().get(AnimationType.IDLE);
-        animation.draw(player, camera, false);
+        gameActors.forEach(gameActor -> gameActor.draw(camera));
+    }
+
+    private Map<Integer, Keyboard> getAIKeyboards(List<GameActor> gameActors) {
+        return gameActors.stream()
+                .filter(gameActor -> !isPlayer(gameActor))
+                .collect(Collectors.toMap(GameActor::getId, gameActor -> new Keyboard()));
+    }
+
+    private boolean isPlayer(GameActor gameActor) {
+        return gameActor.getType().equalsIgnoreCase("player");
     }
 
     private void drawTiles(TileLayer tileLayer, Camera camera) {

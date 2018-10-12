@@ -1,8 +1,8 @@
-package no.taardal.pixelcave.model;
+package no.taardal.pixelcave.domain;
 
 public enum Direction {
 
-    NO_DIRECTION,
+    UNKNOWN,
     UP,
     UP_RIGHT,
     UP_LEFT,

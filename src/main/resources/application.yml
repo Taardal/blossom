@@ -3,6 +3,10 @@ width: 360
 scale: 3
 levels:
   - pixelcave
+actor-layer-name: actors
+decorations-layer-name: decorations
+props-layer-name: props
+terrain-layer-name: terrain
 templates:
   KNIGHT:
     approximate-width: 40
@@ -18,7 +22,7 @@ templates:
       - white
       - yellow
       - young
-    animation-templates:
+    sprite-sheet-coordinates:
       IDLE:
         x: 0
         y: 0
@@ -51,7 +55,7 @@ templates:
       - violet
       - void
       - white
-    animation-templates:
+    sprite-sheet-coordinates:
       IDLE:
         frames: 6
         x: 0

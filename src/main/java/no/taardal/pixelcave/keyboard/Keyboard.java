@@ -1,7 +1,7 @@
 package no.taardal.pixelcave.keyboard;
 
-import no.taardal.pixelcave.model.Key;
-import no.taardal.pixelcave.model.KeyBinding;
+import no.taardal.pixelcave.domain.Key;
+import no.taardal.pixelcave.domain.KeyBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

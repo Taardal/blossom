@@ -1,6 +1,6 @@
-package no.taardal.pixelcave.model.gameobject;
+package no.taardal.pixelcave.domain.gameobject;
 
-import no.taardal.pixelcave.model.Vector2f;
+import no.taardal.pixelcave.domain.Vector2f;
 
 import java.util.Map;
 
@@ -15,8 +15,12 @@ public class GameObject {
     int height;
     float rotation;
     boolean visible;
+    boolean controllable;
 
-    GameObject(int id, String name, String type, Map<String, Object> properties, Vector2f position, int width, int height, float rotation, boolean visible) {
+    GameObject() {
+    }
+
+    private GameObject(int id, String name, String type, Map<String, Object> properties, Vector2f position, int width, int height, float rotation, boolean visible, boolean controllable) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -26,6 +30,7 @@ public class GameObject {
         this.height = height;
         this.rotation = rotation;
         this.visible = visible;
+        this.controllable = controllable;
     }
 
     public int getId() {
@@ -116,17 +121,12 @@ public class GameObject {
         this.visible = visible;
     }
 
-    public Builder toBuilder() {
-        return new Builder()
-                .setId(id)
-                .setName(name)
-                .setType(type)
-                .setProperties(properties)
-                .setPosition(position)
-                .setWidth(width)
-                .setHeight(height)
-                .setRotation(rotation)
-                .setVisible(visible);
+    public boolean isControllable() {
+        return controllable;
+    }
+
+    public void setControllable(boolean controllable) {
+        this.controllable = controllable;
     }
 
     public static class Builder {
@@ -140,6 +140,7 @@ public class GameObject {
         int height;
         float rotation;
         boolean visible;
+        boolean controllable;
 
         public Builder setId(int id) {
             this.id = id;
@@ -204,8 +205,13 @@ public class GameObject {
             return this;
         }
 
+        public Builder setControllable(boolean controllable) {
+            this.controllable = controllable;
+            return this;
+        }
+
         public GameObject build() {
-            return new GameObject(id, name, type, properties, position, width, height, rotation, visible);
+            return new GameObject(id, name, type, properties, position, width, height, rotation, visible, controllable);
         }
     }
 

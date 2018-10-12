@@ -2,9 +2,9 @@ package no.taardal.pixelcave.service;
 
 import no.taardal.pixelcave.config.GameConfig;
 import no.taardal.pixelcave.level.Level;
-import no.taardal.pixelcave.model.Ribbon;
-import no.taardal.pixelcave.model.World;
-import no.taardal.pixelcave.model.gameobject.GameActor;
+import no.taardal.pixelcave.domain.Ribbon;
+import no.taardal.pixelcave.domain.World;
+import no.taardal.pixelcave.domain.gameobject.GameActor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,9 +32,8 @@ public class LevelService {
     private Level getLevel(String levelName) {
         World world = assetService.getWorld(levelName);
         List<Ribbon> ribbons = assetService.getRibbons(levelName);
-        GameActor player = gameActorService.getPlayer(world);
-        List<GameActor> enemies = gameActorService.getEnemies(world);
-        return new Level(world, ribbons, player, enemies);
+        List<GameActor> gameActors = gameActorService.getGameActors(world);
+        return new Level(world, ribbons, gameActors);
     }
 
 }

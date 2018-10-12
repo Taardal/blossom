@@ -1,7 +1,7 @@
 package no.taardal.pixelcave.jsondeserializer;
 
 import com.google.gson.*;
-import no.taardal.pixelcave.model.layer.TileLayer;
+import no.taardal.pixelcave.domain.layer.TileLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

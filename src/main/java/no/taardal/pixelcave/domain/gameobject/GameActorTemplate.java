@@ -1,24 +1,24 @@
-package no.taardal.pixelcave.model.gameobject;
+package no.taardal.pixelcave.domain.gameobject;
 
-import no.taardal.pixelcave.model.animation.AnimationTemplate;
-import no.taardal.pixelcave.model.animation.AnimationType;
+import no.taardal.pixelcave.domain.animation.SpriteSheetCoordinate;
+import no.taardal.pixelcave.domain.animation.AnimationType;
 
 import java.util.List;
 import java.util.Map;
 
 public class GameActorTemplate {
 
-    private Map<AnimationType, AnimationTemplate> animationTemplates;
+    private Map<AnimationType, SpriteSheetCoordinate> spriteSheetCoordinates;
     private List<String> themes;
     private int approximateWidth;
     private int approximateHeight;
 
-    public Map<AnimationType, AnimationTemplate> getAnimationTemplates() {
-        return animationTemplates;
+    public Map<AnimationType, SpriteSheetCoordinate> getSpriteSheetCoordinates() {
+        return spriteSheetCoordinates;
     }
 
-    public void setAnimationTemplates(Map<AnimationType, AnimationTemplate> animationTemplates) {
-        this.animationTemplates = animationTemplates;
+    public void setSpriteSheetCoordinates(Map<AnimationType, SpriteSheetCoordinate> spriteSheetCoordinates) {
+        this.spriteSheetCoordinates = spriteSheetCoordinates;
     }
 
     public List<String> getThemes() {

@@ -65,7 +65,7 @@ public class Game implements GameLoop.Listener {
 
     @Override
     public void onUserInput() {
-        gameStateMachine.getCurrentState().userInput(keyboard);
+        gameStateMachine.getCurrentState().handleInput(keyboard);
     }
 
     @Override

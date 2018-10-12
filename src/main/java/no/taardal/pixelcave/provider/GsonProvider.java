@@ -3,11 +3,11 @@ package no.taardal.pixelcave.provider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import no.taardal.pixelcave.jsondeserializer.*;
-import no.taardal.pixelcave.model.TileSet;
-import no.taardal.pixelcave.model.World;
-import no.taardal.pixelcave.model.layer.GameObjectLayer;
-import no.taardal.pixelcave.model.layer.Layer;
-import no.taardal.pixelcave.model.layer.TileLayer;
+import no.taardal.pixelcave.domain.TileSet;
+import no.taardal.pixelcave.domain.World;
+import no.taardal.pixelcave.domain.layer.GameObjectLayer;
+import no.taardal.pixelcave.domain.layer.Layer;
+import no.taardal.pixelcave.domain.layer.TileLayer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

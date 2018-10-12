@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.model;
+package no.taardal.pixelcave.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

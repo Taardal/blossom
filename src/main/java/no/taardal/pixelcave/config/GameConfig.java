@@ -1,7 +1,7 @@
 package no.taardal.pixelcave.config;
 
-import no.taardal.pixelcave.model.gameobject.GameActorType;
-import no.taardal.pixelcave.model.gameobject.GameActorTemplate;
+import no.taardal.pixelcave.domain.gameobject.GameActorType;
+import no.taardal.pixelcave.domain.gameobject.GameActorTemplate;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,6 +15,10 @@ public class GameConfig {
     private String title;
     private int width;
     private int scale;
+    private String actorLayerName;
+    private String decorationsLayerName;
+    private String propsLayerName;
+    private String terrainLayerName;
     private List<String> levels;
     private Map<GameActorType, GameActorTemplate> templates;
 
@@ -44,6 +48,38 @@ public class GameConfig {
 
     public void setScale(int scale) {
         this.scale = scale;
+    }
+
+    public String getActorLayerName() {
+        return actorLayerName;
+    }
+
+    public void setActorLayerName(String actorLayerName) {
+        this.actorLayerName = actorLayerName;
+    }
+
+    public String getDecorationsLayerName() {
+        return decorationsLayerName;
+    }
+
+    public void setDecorationsLayerName(String decorationsLayerName) {
+        this.decorationsLayerName = decorationsLayerName;
+    }
+
+    public String getPropsLayerName() {
+        return propsLayerName;
+    }
+
+    public void setPropsLayerName(String propsLayerName) {
+        this.propsLayerName = propsLayerName;
+    }
+
+    public String getTerrainLayerName() {
+        return terrainLayerName;
+    }
+
+    public void setTerrainLayerName(String terrainLayerName) {
+        this.terrainLayerName = terrainLayerName;
     }
 
     public List<String> getLevels() {

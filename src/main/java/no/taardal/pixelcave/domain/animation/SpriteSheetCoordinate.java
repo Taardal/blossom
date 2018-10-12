@@ -1,6 +1,6 @@
-package no.taardal.pixelcave.model.animation;
+package no.taardal.pixelcave.domain.animation;
 
-public class AnimationTemplate {
+public class SpriteSheetCoordinate {
 
     private int frames;
     private int x;

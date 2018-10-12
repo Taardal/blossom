@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.model.gameobject;
+package no.taardal.pixelcave.domain.gameobject;
 
 public enum GameActorType {
 

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class StateMachine<T extends State> implements StateListener<T> {
+public class StateMachine<T extends State> implements StateChangeListener<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StateMachine.class);
 
@@ -19,14 +19,12 @@ public class StateMachine<T extends State> implements StateListener<T> {
 
     @Override
     public T getCurrentState() {
-        return !stateDeque.isEmpty() ? stateDeque.getFirst() : null;
+        return !isEmpty() ? stateDeque.getFirst() : null;
     }
 
     @Override
     public void onChangeState(T state) {
-        if (!stateDeque.isEmpty()) {
-            onPopState();
-        }
+        onPopState();
         onPushState(state);
     }
 
@@ -38,8 +36,14 @@ public class StateMachine<T extends State> implements StateListener<T> {
 
     @Override
     public void onPopState() {
-        stateDeque.getFirst().onExit();
-        stateDeque.removeFirst();
+        if (!isEmpty()) {
+            stateDeque.getFirst().onExit();
+            stateDeque.removeFirst();
+        }
+    }
+
+    public boolean isEmpty() {
+        return stateDeque.isEmpty();
     }
 
 }

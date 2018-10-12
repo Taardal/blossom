@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.model;
+package no.taardal.pixelcave.domain;
 
 public class Vector2f {
 

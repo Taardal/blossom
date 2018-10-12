@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.model.layer;
+package no.taardal.pixelcave.domain.layer;
 
 public abstract class Layer {
 

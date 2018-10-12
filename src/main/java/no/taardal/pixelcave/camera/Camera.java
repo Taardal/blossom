@@ -1,8 +1,8 @@
 package no.taardal.pixelcave.camera;
 
 import no.taardal.pixelcave.config.GameConfig;
-import no.taardal.pixelcave.model.Direction;
-import no.taardal.pixelcave.model.gameobject.GameActor;
+import no.taardal.pixelcave.domain.Direction;
+import no.taardal.pixelcave.domain.gameobject.GameActor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class Camera {
     public Camera(GameConfig gameConfig) {
         this.width = gameConfig.getWidth();
         this.height = gameConfig.getHeight();
-        direction = Direction.NO_DIRECTION;
+        direction = Direction.UNKNOWN;
         bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         graphics2D = bufferedImage.createGraphics();
         centerOnPlayerRequired = true;
@@ -91,7 +91,7 @@ public class Camera {
             }
             x += (int) playerX - (int) previousPlayerX;
         } else {
-            direction = Direction.NO_DIRECTION;
+            direction = Direction.UNKNOWN;
         }
         previousPlayerX = playerX;
     }

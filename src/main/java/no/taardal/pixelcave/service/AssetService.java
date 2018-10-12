@@ -1,9 +1,9 @@
 package no.taardal.pixelcave.service;
 
 import com.google.gson.Gson;
-import no.taardal.pixelcave.model.*;
-import no.taardal.pixelcave.model.gameobject.GameActorTemplate;
-import no.taardal.pixelcave.model.gameobject.GameObject;
+import no.taardal.pixelcave.domain.*;
+import no.taardal.pixelcave.domain.gameobject.GameActorTemplate;
+import no.taardal.pixelcave.domain.gameobject.GameObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

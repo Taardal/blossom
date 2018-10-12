@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.model;
+package no.taardal.pixelcave.domain;
 
 import no.taardal.pixelcave.camera.Camera;
 
@@ -12,7 +12,7 @@ public class Tile {
 
     public Tile(BufferedImage bufferedImage) {
         this.bufferedImage = bufferedImage;
-        direction = Direction.NO_DIRECTION;
+        direction = Direction.UNKNOWN;
         slope = isSlopeTile();
     }
 

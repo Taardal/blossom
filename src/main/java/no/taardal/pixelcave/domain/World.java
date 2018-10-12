@@ -1,7 +1,7 @@
-package no.taardal.pixelcave.model;
+package no.taardal.pixelcave.domain;
 
-import no.taardal.pixelcave.model.layer.GameObjectLayer;
-import no.taardal.pixelcave.model.layer.TileLayer;
+import no.taardal.pixelcave.domain.layer.GameObjectLayer;
+import no.taardal.pixelcave.domain.layer.TileLayer;
 
 import java.util.List;
 import java.util.Map;

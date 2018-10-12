@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.model.animation;
+package no.taardal.pixelcave.domain.animation;
 
 public enum AnimationType {
 
