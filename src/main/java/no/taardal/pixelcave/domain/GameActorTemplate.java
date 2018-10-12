@@ -1,7 +1,4 @@
-package no.taardal.pixelcave.domain.gameobject;
-
-import no.taardal.pixelcave.domain.animation.SpriteSheetCoordinate;
-import no.taardal.pixelcave.domain.animation.AnimationType;
+package no.taardal.pixelcave.domain;
 
 import java.util.List;
 import java.util.Map;

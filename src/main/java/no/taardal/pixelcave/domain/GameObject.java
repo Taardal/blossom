@@ -1,6 +1,4 @@
-package no.taardal.pixelcave.domain.gameobject;
-
-import no.taardal.pixelcave.domain.Vector2f;
+package no.taardal.pixelcave.domain;
 
 import java.util.Map;
 
@@ -17,7 +15,7 @@ public class GameObject {
     boolean visible;
     boolean controllable;
 
-    GameObject() {
+    public GameObject() {
     }
 
     private GameObject(int id, String name, String type, Map<String, Object> properties, Vector2f position, int width, int height, float rotation, boolean visible, boolean controllable) {
@@ -78,6 +76,9 @@ public class GameObject {
     }
 
     public void setX(float x) {
+        if (position == null) {
+            position = Vector2f.zero();
+        }
         position.setX(x);
     }
 
@@ -86,6 +87,9 @@ public class GameObject {
     }
 
     public void setY(float y) {
+        if (position == null) {
+            position = Vector2f.zero();
+        }
         position.setY(y);
     }
 
@@ -127,92 +131,6 @@ public class GameObject {
 
     public void setControllable(boolean controllable) {
         this.controllable = controllable;
-    }
-
-    public static class Builder {
-
-        int id;
-        String name;
-        String type;
-        Map<String, Object> properties;
-        Vector2f position;
-        int width;
-        int height;
-        float rotation;
-        boolean visible;
-        boolean controllable;
-
-        public Builder setId(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder setType(String type) {
-            this.type = type;
-            return this;
-        }
-
-        public Builder setProperties(Map<String, Object> properties) {
-            this.properties = properties;
-            return this;
-        }
-
-        public Builder setPosition(Vector2f position) {
-            this.position = position;
-            return this;
-        }
-
-        public Builder setWidth(int width) {
-            this.width = width;
-            return this;
-        }
-
-        public Builder setHeight(int height) {
-            this.height = height;
-            return this;
-        }
-
-        public Builder setX(float x) {
-            if (position != null) {
-                position.setX(x);
-            } else {
-                position = new Vector2f(x, 0);
-            }
-            return this;
-        }
-
-        public Builder setY(float y) {
-            if (position != null) {
-                position.setY(y);
-            } else {
-                position = new Vector2f(0, y);
-            }
-            return this;
-        }
-
-        public Builder setRotation(float rotation) {
-            this.rotation = rotation;
-            return this;
-        }
-
-        public Builder setVisible(boolean visible) {
-            this.visible = visible;
-            return this;
-        }
-
-        public Builder setControllable(boolean controllable) {
-            this.controllable = controllable;
-            return this;
-        }
-
-        public GameObject build() {
-            return new GameObject(id, name, type, properties, position, width, height, rotation, visible, controllable);
-        }
     }
 
 }

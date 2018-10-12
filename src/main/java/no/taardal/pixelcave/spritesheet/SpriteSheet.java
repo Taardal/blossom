@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.domain;
+package no.taardal.pixelcave.spritesheet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ public class SpriteSheet {
     private int approximateSpriteWidth;
     private int approximateSpriteHeight;
 
-    private SpriteSheet(BufferedImage bufferedImage, int approximateSpriteWidth, int approximateSpriteHeight) {
+    public SpriteSheet(BufferedImage bufferedImage, int approximateSpriteWidth, int approximateSpriteHeight) {
         this.bufferedImage = bufferedImage;
         this.approximateSpriteWidth = approximateSpriteWidth;
         this.approximateSpriteHeight = approximateSpriteHeight;
@@ -100,33 +100,6 @@ public class SpriteSheet {
             }
         }
         return exactCutoutImage;
-    }
-
-    public static class Builder {
-
-        private BufferedImage bufferedImage;
-        private int approximateSpriteWidth;
-        private int approximateSpriteHeight;
-
-        public Builder setBufferedImage(BufferedImage bufferedImage) {
-            this.bufferedImage = bufferedImage;
-            return this;
-        }
-
-        public Builder setApproximateSpriteWidth(int approximateSpriteWidth) {
-            this.approximateSpriteWidth = approximateSpriteWidth;
-            return this;
-        }
-
-        public Builder setApproximateSpriteHeight(int approximateSpriteHeight) {
-            this.approximateSpriteHeight = approximateSpriteHeight;
-            return this;
-        }
-
-        public SpriteSheet build() {
-            return new SpriteSheet(bufferedImage, approximateSpriteWidth, approximateSpriteHeight);
-        }
-
     }
 
 }

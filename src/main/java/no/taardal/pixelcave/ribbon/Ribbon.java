@@ -1,6 +1,7 @@
-package no.taardal.pixelcave.domain;
+package no.taardal.pixelcave.ribbon;
 
 import no.taardal.pixelcave.camera.Camera;
+import no.taardal.pixelcave.domain.Direction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

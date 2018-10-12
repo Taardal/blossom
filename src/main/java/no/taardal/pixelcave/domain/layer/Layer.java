@@ -1,24 +1,17 @@
 package no.taardal.pixelcave.domain.layer;
 
+import no.taardal.pixelcave.domain.LayerType;
+
 public abstract class Layer {
 
-    public enum Type {
-        GAME_OBJECT_LAYER,
-        TILE_LAYER
-    }
-
     private String name;
-    private Type type;
+    private LayerType type;
     private int x;
     private int y;
     private boolean visible;
 
-    Layer(String name, Type type, int x, int y, boolean visible) {
-        this.name = name;
+    public Layer(LayerType type) {
         this.type = type;
-        this.x = x;
-        this.y = y;
-        this.visible = visible;
     }
 
     public String getName() {
@@ -29,7 +22,7 @@ public abstract class Layer {
         this.name = name;
     }
 
-    public Type getType() {
+    public LayerType getType() {
         return type;
     }
 

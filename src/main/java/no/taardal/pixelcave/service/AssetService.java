@@ -2,8 +2,11 @@ package no.taardal.pixelcave.service;
 
 import com.google.gson.Gson;
 import no.taardal.pixelcave.domain.*;
-import no.taardal.pixelcave.domain.gameobject.GameActorTemplate;
-import no.taardal.pixelcave.domain.gameobject.GameObject;
+import no.taardal.pixelcave.domain.GameActorTemplate;
+import no.taardal.pixelcave.domain.GameObject;
+import no.taardal.pixelcave.ribbon.Ribbon;
+import no.taardal.pixelcave.spritesheet.SpriteSheet;
+import no.taardal.pixelcave.domain.Tile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +55,10 @@ public class AssetService {
     }
 
     public SpriteSheet getSpriteSheet(GameObject gameObject, GameActorTemplate gameActorTemplate) {
-        return new SpriteSheet.Builder()
-                .setBufferedImage(resourceService.getBufferedImage(getSpriteSheetPath(gameObject)))
-                .setApproximateSpriteWidth(gameActorTemplate.getApproximateWidth())
-                .setApproximateSpriteHeight(gameActorTemplate.getApproximateHeight())
-                .build();
+        BufferedImage bufferedImage = resourceService.getBufferedImage(getSpriteSheetPath(gameObject));
+        int approximateHeight = gameActorTemplate.getApproximateHeight();
+        int approximateWidth = gameActorTemplate.getApproximateWidth();
+        return new SpriteSheet(bufferedImage, approximateWidth, approximateHeight);
     }
 
     private Map<Integer, Tile> getTiles(World world) {

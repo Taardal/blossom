@@ -1,9 +1,10 @@
 package no.taardal.pixelcave.keyboard;
 
-import no.taardal.pixelcave.domain.Key;
+import no.taardal.pixelcave.config.GameConfig;
 import no.taardal.pixelcave.domain.KeyBinding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.awt.event.KeyEvent;
@@ -17,6 +18,13 @@ public class Keyboard implements KeyListener {
 
     private static boolean[] keyStates = new boolean[MAX_KEY_CODE];
     private static boolean[] previousKeyStates = new boolean[MAX_KEY_CODE];
+
+    private GameConfig gameConfig;
+
+    @Autowired
+    public Keyboard(GameConfig gameConfig) {
+        this.gameConfig = gameConfig;
+    }
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
@@ -44,14 +52,8 @@ public class Keyboard implements KeyListener {
     }
 
     public boolean isPressed(KeyBinding keyBinding) {
-        return isPressed(keyBinding.getPrimaryKey()) || isPressed(keyBinding.getSecondaryKey());
-    }
-
-    public boolean isPressed(Key key) {
-        return isPressed(key.getKeyCode());
-    }
-
-    private boolean isPressed(int keyCode) {
+        //int keyCode = gameConfig.getKeyBindings().get(keyBinding);
+        int keyCode = 0;
         if (keyCode == KeyEvent.VK_ESCAPE || keyCode == KeyEvent.VK_ENTER) {
             return keyStates[keyCode] && !previousKeyStates[keyCode];
         } else {

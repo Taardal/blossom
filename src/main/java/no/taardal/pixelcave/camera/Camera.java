@@ -2,7 +2,7 @@ package no.taardal.pixelcave.camera;
 
 import no.taardal.pixelcave.config.GameConfig;
 import no.taardal.pixelcave.domain.Direction;
-import no.taardal.pixelcave.domain.gameobject.GameActor;
+import no.taardal.pixelcave.domain.GameActor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

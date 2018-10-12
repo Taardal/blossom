@@ -1,7 +1,7 @@
 package no.taardal.pixelcave.config;
 
-import no.taardal.pixelcave.domain.gameobject.GameActorType;
-import no.taardal.pixelcave.domain.gameobject.GameActorTemplate;
+import no.taardal.pixelcave.domain.GameActorTemplate;
+import no.taardal.pixelcave.domain.GameActorType;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

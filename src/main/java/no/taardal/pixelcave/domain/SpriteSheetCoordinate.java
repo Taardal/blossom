@@ -1,4 +1,4 @@
-package no.taardal.pixelcave.domain.animation;
+package no.taardal.pixelcave.domain;
 
 public class SpriteSheetCoordinate {
 

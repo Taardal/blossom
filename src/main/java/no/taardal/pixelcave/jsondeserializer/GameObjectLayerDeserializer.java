@@ -1,7 +1,7 @@
 package no.taardal.pixelcave.jsondeserializer;
 
 import com.google.gson.*;
-import no.taardal.pixelcave.domain.gameobject.GameObject;
+import no.taardal.pixelcave.domain.GameObject;
 import no.taardal.pixelcave.domain.layer.GameObjectLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,10 @@ public class GameObjectLayerDeserializer implements JsonDeserializer<GameObjectL
     @Override
     public GameObjectLayer deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
         try {
-            return new GameObjectLayer.Builder().setGameObjects(getGameObjects(jsonElement.getAsJsonObject())).build();
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            GameObjectLayer gameObjectLayer = new GameObjectLayer();
+            gameObjectLayer.setGameObjects(getGameObjects(jsonObject));
+            return gameObjectLayer;
         } catch (JsonParseException e) {
             LOGGER.error("Could not deserialize game object layer.", e);
             return null;
@@ -36,18 +39,18 @@ public class GameObjectLayerDeserializer implements JsonDeserializer<GameObjectL
     }
 
     private GameObject getGameObject(JsonObject jsonObject) {
-        return new GameObject.Builder()
-                .setProperties(getProperties(jsonObject))
-                .setId(jsonObject.get("id").getAsInt())
-                .setName(jsonObject.get("name").getAsString())
-                .setType(jsonObject.get("type").getAsString())
-                .setWidth(jsonObject.get("width").getAsInt())
-                .setHeight(jsonObject.get("height").getAsInt())
-                .setX(jsonObject.get("x").getAsFloat())
-                .setY(jsonObject.get("y").getAsFloat())
-                .setRotation(jsonObject.get("rotation").getAsFloat())
-                .setVisible(jsonObject.get("visible").getAsBoolean())
-                .build();
+        GameObject gameObject = new GameObject();
+        gameObject.setProperties(getProperties(jsonObject));
+        gameObject.setId(jsonObject.get("id").getAsInt());
+        gameObject.setName(jsonObject.get("name").getAsString());
+        gameObject.setType(jsonObject.get("type").getAsString());
+        gameObject.setWidth(jsonObject.get("width").getAsInt());
+        gameObject.setHeight(jsonObject.get("height").getAsInt());
+        gameObject.setX(jsonObject.get("x").getAsFloat());
+        gameObject.setY(jsonObject.get("y").getAsFloat());
+        gameObject.setRotation(jsonObject.get("rotation").getAsFloat());
+        gameObject.setVisible(jsonObject.get("visible").getAsBoolean());
+        return gameObject;
     }
 
     private Map<String, Object> getProperties(JsonObject jsonObject) {

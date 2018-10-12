@@ -4,9 +4,9 @@ import no.taardal.pixelcave.camera.Camera;
 import no.taardal.pixelcave.keyboard.Keyboard;
 import no.taardal.pixelcave.domain.Vector2f;
 import no.taardal.pixelcave.domain.World;
-import no.taardal.pixelcave.domain.animation.Animation;
-import no.taardal.pixelcave.domain.animation.AnimationType;
-import no.taardal.pixelcave.domain.gameobject.GameActor;
+import no.taardal.pixelcave.animation.Animation;
+import no.taardal.pixelcave.domain.AnimationType;
+import no.taardal.pixelcave.domain.GameActor;
 import no.taardal.pixelcave.statemachine.StateChangeListener;
 
 public class KnightIdleState extends MovementState implements GameActorState {

@@ -1,19 +1,17 @@
 package no.taardal.pixelcave.level;
 
 import no.taardal.pixelcave.camera.Camera;
-import no.taardal.pixelcave.domain.Ribbon;
+import no.taardal.pixelcave.domain.GameActor;
 import no.taardal.pixelcave.domain.Tile;
 import no.taardal.pixelcave.domain.World;
-import no.taardal.pixelcave.domain.gameobject.GameActor;
 import no.taardal.pixelcave.domain.layer.Layer;
 import no.taardal.pixelcave.domain.layer.TileLayer;
 import no.taardal.pixelcave.keyboard.Keyboard;
+import no.taardal.pixelcave.ribbon.Ribbon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Level {
 
@@ -22,20 +20,15 @@ public class Level {
     private World world;
     private List<Ribbon> ribbons;
     private List<GameActor> gameActors;
-    private Map<Integer, Keyboard> aiKeyboards;
 
     public Level(World world, List<Ribbon> ribbons, List<GameActor> gameActors) {
         this.world = world;
         this.ribbons = ribbons;
         this.gameActors = gameActors;
-        aiKeyboards = getAIKeyboards(gameActors);
     }
 
-    public void handleInput(Keyboard keyboard) {
-        gameActors.forEach(gameActor -> {
-            Keyboard gameActorKeyboard = isPlayer(gameActor) ? keyboard : aiKeyboards.get(gameActor.getId());
-            gameActor.handleInput(gameActorKeyboard);
-        });
+    public void handlePlayerInput(Keyboard keyboard) {
+        gameActors.stream().filter(this::isPlayer).forEach(gameActor -> gameActor.handleInput(keyboard));
     }
 
     public void updateRibbons(Camera camera) {
@@ -58,14 +51,8 @@ public class Level {
         gameActors.forEach(gameActor -> gameActor.draw(camera));
     }
 
-    private Map<Integer, Keyboard> getAIKeyboards(List<GameActor> gameActors) {
-        return gameActors.stream()
-                .filter(gameActor -> !isPlayer(gameActor))
-                .collect(Collectors.toMap(GameActor::getId, gameActor -> new Keyboard()));
-    }
-
     private boolean isPlayer(GameActor gameActor) {
-        return gameActor.getType().equalsIgnoreCase("player");
+        return gameActor.getName().equalsIgnoreCase("player");
     }
 
     private void drawTiles(TileLayer tileLayer, Camera camera) {

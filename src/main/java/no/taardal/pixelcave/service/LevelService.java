@@ -2,9 +2,9 @@ package no.taardal.pixelcave.service;
 
 import no.taardal.pixelcave.config.GameConfig;
 import no.taardal.pixelcave.level.Level;
-import no.taardal.pixelcave.domain.Ribbon;
+import no.taardal.pixelcave.ribbon.Ribbon;
 import no.taardal.pixelcave.domain.World;
-import no.taardal.pixelcave.domain.gameobject.GameActor;
+import no.taardal.pixelcave.domain.GameActor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

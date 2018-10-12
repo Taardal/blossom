@@ -1,10 +1,10 @@
 package no.taardal.pixelcave.config;
 
 import no.taardal.pixelcave.ITestKit;
-import no.taardal.pixelcave.domain.gameobject.GameActorType;
-import no.taardal.pixelcave.domain.animation.SpriteSheetCoordinate;
-import no.taardal.pixelcave.domain.animation.AnimationType;
-import no.taardal.pixelcave.domain.gameobject.GameActorTemplate;
+import no.taardal.pixelcave.domain.GameActorType;
+import no.taardal.pixelcave.domain.SpriteSheetCoordinate;
+import no.taardal.pixelcave.domain.AnimationType;
+import no.taardal.pixelcave.domain.GameActorTemplate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

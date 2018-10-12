@@ -4,7 +4,7 @@ import no.taardal.pixelcave.domain.Direction;
 import no.taardal.pixelcave.domain.Tile;
 import no.taardal.pixelcave.domain.Vector2f;
 import no.taardal.pixelcave.domain.World;
-import no.taardal.pixelcave.domain.gameobject.GameActor;
+import no.taardal.pixelcave.domain.GameActor;
 import no.taardal.pixelcave.statemachine.StateChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

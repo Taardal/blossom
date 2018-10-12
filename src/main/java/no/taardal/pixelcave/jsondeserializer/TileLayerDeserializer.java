@@ -17,11 +17,11 @@ public class TileLayerDeserializer implements JsonDeserializer<TileLayer> {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             int width = jsonObject.get("width").getAsInt();
             int height = jsonObject.get("height").getAsInt();
-            return new TileLayer.Builder()
-                    .setTileGrid(getTileGrid(jsonObject, width, height))
-                    .setWidth(width)
-                    .setHeight(height)
-                    .createTileLayer();
+            TileLayer tileLayer = new TileLayer();
+            tileLayer.setTileGrid(getTileGrid(jsonObject, width, height));
+            tileLayer.setWidth(width);
+            tileLayer.setHeight(height);
+            return tileLayer;
         } catch (JsonParseException e) {
             LOGGER.error("Could not deserialize layer.", e);
             return null;

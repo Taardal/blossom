@@ -1,7 +1,7 @@
-package no.taardal.pixelcave.domain.animation;
+package no.taardal.pixelcave.animation;
 
 import no.taardal.pixelcave.camera.Camera;
-import no.taardal.pixelcave.domain.gameobject.GameActor;
+import no.taardal.pixelcave.domain.GameActor;
 
 import java.awt.image.BufferedImage;
 import java.util.List;

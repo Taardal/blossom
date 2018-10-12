@@ -15,19 +15,19 @@ public class TileSetDeserializer implements JsonDeserializer<TileSet> {
     public TileSet deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
         try {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
-            return new TileSet.Builder()
-                    .setFirstGlobalId(jsonObject.get("firstgid").getAsInt())
-                    .setName(jsonObject.get("name").getAsString())
-                    .setTileWidth(jsonObject.get("tilewidth").getAsInt())
-                    .setTileHeight(jsonObject.get("tileheight").getAsInt())
-                    .setNumberOfTiles(jsonObject.get("tilecount").getAsInt())
-                    .setNumberOfColumns(jsonObject.get("columns").getAsInt())
-                    .setMargin(jsonObject.get("margin").getAsInt())
-                    .setSpacing(jsonObject.get("spacing").getAsInt())
-                    .setImagePath(jsonObject.get("image").getAsString().replaceFirst("../", ""))
-                    .setImageWidth(jsonObject.get("imagewidth").getAsInt())
-                    .setImageHeight(jsonObject.get("imageheight").getAsInt())
-                    .build();
+            TileSet tileSet = new TileSet();
+            tileSet.setFirstGlobalId(jsonObject.get("firstgid").getAsInt());
+            tileSet.setName(jsonObject.get("name").getAsString());
+            tileSet.setTileWidth(jsonObject.get("tilewidth").getAsInt());
+            tileSet.setTileHeight(jsonObject.get("tileheight").getAsInt());
+            tileSet.setNumberOfTiles(jsonObject.get("tilecount").getAsInt());
+            tileSet.setNumberOfColumns(jsonObject.get("columns").getAsInt());
+            tileSet.setMargin(jsonObject.get("margin").getAsInt());
+            tileSet.setSpacing(jsonObject.get("spacing").getAsInt());
+            tileSet.setImagePath(jsonObject.get("image").getAsString().replaceFirst("../", ""));
+            tileSet.setImageWidth(jsonObject.get("imagewidth").getAsInt());
+            tileSet.setImageHeight(jsonObject.get("imageheight").getAsInt());
+            return tileSet;
         } catch (JsonParseException e) {
             LOGGER.error("Could not deserialize layer.", e);
             return null;

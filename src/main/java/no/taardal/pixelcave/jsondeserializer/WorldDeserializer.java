@@ -5,6 +5,7 @@ import no.taardal.pixelcave.domain.TileSet;
 import no.taardal.pixelcave.domain.World;
 import no.taardal.pixelcave.domain.layer.GameObjectLayer;
 import no.taardal.pixelcave.domain.layer.Layer;
+import no.taardal.pixelcave.domain.LayerType;
 import no.taardal.pixelcave.domain.layer.TileLayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,16 +25,16 @@ public class WorldDeserializer implements JsonDeserializer<World> {
         try {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             List<Layer> layers = getLayers(jsonObject, jsonDeserializationContext);
-            return new World.Builder()
-                    .setTileLayers(getTileLayers(layers))
-                    .setGameObjectLayers(getGameObjectLayers(layers))
-                    .setTileSets(getTileSets(jsonObject, jsonDeserializationContext))
-                    .setWidth(jsonObject.get("width").getAsInt())
-                    .setHeight(jsonObject.get("height").getAsInt())
-                    .setNextObjectId(jsonObject.get("nextobjectid").getAsInt())
-                    .setTileHeight(jsonObject.get("tileheight").getAsInt())
-                    .setTileWidth(jsonObject.get("tilewidth").getAsInt())
-                    .createWorld();
+            World world = new World();
+            world.setTileLayers(getTileLayers(layers));
+            world.setGameObjectLayers(getGameObjectLayers(layers));
+            world.setTileSets(getTileSets(jsonObject, jsonDeserializationContext));
+            world.setWidth(jsonObject.get("width").getAsInt());
+            world.setHeight(jsonObject.get("height").getAsInt());
+            world.setNextObjectId(jsonObject.get("nextobjectid").getAsInt());
+            world.setTileHeight(jsonObject.get("tileheight").getAsInt());
+            world.setTileWidth(jsonObject.get("tilewidth").getAsInt());
+            return world;
         } catch (JsonParseException e) {
             LOGGER.error("Could not deserialize world.", e);
             return null;
@@ -52,14 +53,14 @@ public class WorldDeserializer implements JsonDeserializer<World> {
 
     private Map<String, TileLayer> getTileLayers(List<Layer> layers) {
         return layers.stream()
-                .filter(layer -> layer.getType() == Layer.Type.TILE_LAYER)
+                .filter(layer -> layer.getType() == LayerType.TILE_LAYER)
                 .map(layer -> (TileLayer) layer)
                 .collect(Collectors.toMap(Layer::getName, layer -> layer));
     }
 
     private Map<String, GameObjectLayer> getGameObjectLayers(List<Layer> layers) {
         return layers.stream()
-                .filter(layer -> layer.getType() == Layer.Type.GAME_OBJECT_LAYER)
+                .filter(layer -> layer.getType() == LayerType.GAME_OBJECT_LAYER)
                 .map(layer -> (GameObjectLayer) layer)
                 .collect(Collectors.toMap(Layer::getName, layer -> layer));
     }

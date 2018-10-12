@@ -1,11 +1,7 @@
-package no.taardal.pixelcave.domain.gameobject;
+package no.taardal.pixelcave.domain;
 
+import no.taardal.pixelcave.animation.Animation;
 import no.taardal.pixelcave.camera.Camera;
-import no.taardal.pixelcave.domain.Direction;
-import no.taardal.pixelcave.domain.Vector2f;
-import no.taardal.pixelcave.domain.World;
-import no.taardal.pixelcave.domain.animation.Animation;
-import no.taardal.pixelcave.domain.animation.AnimationType;
 import no.taardal.pixelcave.keyboard.Keyboard;
 import no.taardal.pixelcave.state.GameActorState;
 import no.taardal.pixelcave.statemachine.StateMachine;

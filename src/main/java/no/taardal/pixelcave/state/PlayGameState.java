@@ -21,7 +21,7 @@ public class PlayGameState implements GameState {
 
     @Override
     public GameState handleInput(Keyboard keyboard) {
-        level.handleInput(keyboard);
+        level.handlePlayerInput(keyboard);
         return null;
     }
 
